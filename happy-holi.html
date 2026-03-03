@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Holi 🌈</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Times New Roman',serif;
+    overflow:hidden;
+    background:linear-gradient(-45deg,#fff0f5,#ffffff,#fce4ec,#f3e5f5);
+    background-size:400% 400%;
+    animation:gradientMove 12s ease infinite;
+}
+
+/* Smooth moving gradient */
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* Floating soft circles */
+.circle{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,182,193,0.3);
+    animation:float 12s infinite ease-in-out;
+}
+
+.circle:nth-child(1){
+    width:200px;
+    height:200px;
+    left:10%;
+    top:70%;
+}
+.circle:nth-child(2){
+    width:300px;
+    height:300px;
+    right:10%;
+    top:10%;
+}
+.circle:nth-child(3){
+    width:150px;
+    height:150px;
+    left:40%;
+    top:20%;
+}
+
+@keyframes float{
+    0%{transform:translateY(0px);}
+    50%{transform:translateY(-40px);}
+    100%{transform:translateY(0px);}
+}
+
+/* Layout */
+.container{
+    width:90%;
+    max-width:1200px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:relative;
+    z-index:2;
+}
+
+.content{
+    width:55%;
+}
+
+.side-image{
+    width:40%;
+}
+
+.side-image img{
+    width:100%;
+    border-radius:20px;
+    box-shadow:0 0 40px rgba(0,0,0,0.2);
+}
+
+/* Countdown */
+#countdown{
+    font-size:80px;
+    font-weight:bold;
+    color:#222;
+    text-align:center;
+}
+
+/* Button */
+#startBtn{
+    display:none;
+    padding:12px 25px;
+    font-size:20px;
+    border:none;
+    border-radius:8px;
+    background:#ff1493;
+    color:white;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+/* Message */
+#messageBox{
+    display:none;
+    margin-top:20px;
+    padding:30px;
+    background:white;
+    border-radius:20px;
+    box-shadow:0 0 40px rgba(0,0,0,0.15);
+    font-size:22px;
+    color:#222;
+    line-height:1.6;
+}
+
+#text{
+    white-space:pre-wrap;
+}
+
+/* Sprinkle */
+.sprinkle{
+    position:absolute;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    to{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Floating circles -->
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+
+<div class="container">
+
+<div class="content">
+<div id="countdown">1</div>
+<button id="startBtn">Tap To Open 🎉</button>
+<div id="messageBox">
+<div id="text"></div>
+</div>
+</div>
+
+<div class="side-image">
+<img src="holi.jpeg" alt="Holi Image">
+</div>
+
+</div>
+
+<audio id="music" src="VID_20260303_065604_424_bsl.mp3"></audio>
+
+<script>
+let count=1;
+let countdown=document.getElementById("countdown");
+let startBtn=document.getElementById("startBtn");
+let box=document.getElementById("messageBox");
+let text=document.getElementById("text");
+let music=document.getElementById("music");
+
+let interval=setInterval(()=>{
+    if(count<5){
+        count++;
+        countdown.innerText=count;
+    }else{
+        clearInterval(interval);
+        countdown.style.display="none";
+        startBtn.style.display="inline-block";
+    }
+},1000);
+
+startBtn.addEventListener("click",()=>{
+    startBtn.style.display="none";
+    box.style.display="block";
+    music.play();
+    startSprinkle();
+
+    let message="🌈 Happy Holi Everyone :) 🎨🫟\n🌸 May this festival of colors brighten your life with happiness, fill your heart with love, and bring new beginnings full of success and joy. ✨ 💛💙💚";
+
+    let i=0;
+    function type(){
+        if(i<message.length){
+            text.innerHTML+=message.charAt(i);
+            i++;
+            setTimeout(type,40);
+        }
+    }
+    type();
+});
+
+function startSprinkle(){
+    setInterval(()=>{
+        let dot=document.createElement("div");
+        dot.classList.add("sprinkle");
+
+        dot.style.left=Math.random()*100+"vw";
+        dot.style.background=`hsl(${Math.random()*360},100%,50%)`;
+        dot.style.animationDuration=(Math.random()*3+2)+"s";
+
+        document.body.appendChild(dot);
+
+        setTimeout(()=>{dot.remove();},5000);
+    },120);
+}
+</script>
+
+</body>
+</html>
